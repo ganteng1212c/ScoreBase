@@ -1,0 +1,51 @@
+name: Auto Update
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'screens/**'
+      - 'utils/**'
+      - 'App.js'
+  schedule:
+    - cron: '0 0 * * *'  # Run daily at midnight
+
+jobs:
+  update-version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16.x'
+      
+      - name: Update Version
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          BUILD_NUMBER=$(date +%Y%m%d%H%M)
+          
+          # Update version.json
+          cat > updates/version.json << EOF
+          {
+            "version": "$VERSION",
+            "buildNumber": "$BUILD_NUMBER",
+            "downloadUrl": "https://github.com/${{ github.repository }}/releases/latest",
+            "message": "Update terbaru tersedia dengan perbaikan dan peningkatan",
+            "mandatory": false,
+            "features": [
+              "Peningkatan performa",
+              "Perbaikan bug",
+              "Update sistem"
+            ]
+          }
+          EOF
+      
+      - name: Commit and Push
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add updates/version.json
+          git commit -m "Update version info [skip ci]"
+          git push

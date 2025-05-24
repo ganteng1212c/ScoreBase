@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "Archery Score",
-    "slug": "archery-score",
+    "name": "ScoreBase",
+    "slug": "skor-panahan",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/logo.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
@@ -14,16 +14,22 @@
     "assetBundlePatterns": [
       "**/*"
     ],
-    "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.your-name.archeryscore"
-    },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/logo.png",
         "backgroundColor": "#2196F3"
       },
-      "package": "com.your_name.archeryscore"
+      "package": "com.irwans.scorebase",
+      "versionCode": 1,
+      "permissions": [
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE"
+      ]
+    },
+    "extra": {
+      "eas": {
+        "projectId": "48cf903f-e9c1-4060-892d-eaf6a046ebe0"
+      }
     }
   }
 }

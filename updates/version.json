@@ -1,0 +1,11 @@
+{
+  "version": "1.0.0",
+  "downloadUrl": "https://github.com/YOUR_USERNAME/scorebase/releases/latest",
+  "message": "Versi terbaru tersedia dengan peningkatan performa dan perbaikan bug.",
+  "mandatory": false,
+  "features": [
+    "Peningkatan performa",
+    "Perbaikan bug minor",
+    "Optimasi penyimpanan data"
+  ]
+}

@@ -1,52 +1,76 @@
-import React from 'react';
-import { View, StyleSheet, Alert } from 'react-native';
+import React, { useState } from 'react';
+import { View, StyleSheet, TouchableOpacity, Modal, Alert } from 'react-native';
 import { Button, Text } from '@react-native-material/core';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+
+const PlayerCountDialog = ({ visible, onClose, onSelect }) => {
+  return (
+    <Modal
+      animationType="fade"
+      transparent={true}
+      visible={visible}
+      onRequestClose={onClose}
+    >
+      <View style={styles.modalOverlay}>
+        <View style={styles.dialogContainer}>
+          <Text style={styles.dialogTitle}>Pilih Jumlah Pemain</Text>
+          {[1, 2, 3, 4].map((count) => (
+            <TouchableOpacity
+              key={count}
+              style={styles.playerOption}
+              onPress={() => {
+                onSelect(count);
+                onClose();
+              }}
+            >
+              <Icon name="account" size={24} color="#2196F3" />
+              <Text style={styles.playerOptionText}>{count} Pemain</Text>
+              <Icon name="chevron-right" size={24} color="#2196F3" />
+            </TouchableOpacity>
+          ))}
+          <Button
+            title="Batal"
+            onPress={onClose}
+            style={styles.cancelButton}
+          />
+        </View>
+      </View>
+    </Modal>
+  );
+};
 
 export default function HomeScreen({ navigation }) {
+  const [dialogVisible, setDialogVisible] = useState(false);
+
   const handleCreateScore = () => {
-    Alert.alert(      'Pilih Jumlah Pemain',
-      'Berapa pemain yang akan berpartisipasi?',
-      [
-        {
-          text: '1 Pemain',
-          onPress: () => navigation.navigate('PlayerSetup', { playerCount: 1 }),
-        },
-        {
-          text: '2 Pemain',
-          onPress: () => navigation.navigate('PlayerSetup', { playerCount: 2 }),
-        },
-        {
-          text: '3 Pemain',
-          onPress: () => navigation.navigate('PlayerSetup', { playerCount: 3 }),
-        },
-        {
-          text: '4 Pemain',
-          onPress: () => navigation.navigate('PlayerSetup', { playerCount: 4 }),
-        },
-      ]
-    );
+    setDialogVisible(true);
   };
 
   return (
     <View style={styles.container}>
       <Text style={styles.welcome}>Selamat Datang Para Pelatih!</Text>
-      <Text style={styles.title}>Archery Score</Text>
+      <Text style={styles.title}>Skor Panahan</Text>
       <View style={styles.buttonContainer}>
         <Button
-          title="Scoring Mode"
+          title="Mode Skor"
           onPress={handleCreateScore}
           style={[styles.button, styles.scoringButton]}
           contentContainerStyle={styles.buttonContent}
           leading={props => <Text style={styles.buttonIcon}>🎯</Text>}
         />
         <Button
-          title="Database Mode"
+          title="Mode Database"
           onPress={() => navigation.navigate('Database')}
           style={[styles.button, styles.databaseButton]}
           contentContainerStyle={styles.buttonContent}
           leading={props => <Text style={styles.buttonIcon}>📊</Text>}
         />
       </View>
+      <PlayerCountDialog
+        visible={dialogVisible}
+        onClose={() => setDialogVisible(false)}
+        onSelect={(count) => navigation.navigate('PlayerSetup', { playerCount: count })}
+      />
     </View>
   );
 }
@@ -95,5 +119,47 @@ const styles = StyleSheet.create({
   buttonIcon: {
     fontSize: 24,
     marginRight: 10,
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  dialogContainer: {
+    backgroundColor: 'white',
+    borderRadius: 15,
+    padding: 20,
+    width: '80%',
+    elevation: 5,
+  },
+  dialogTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 20,
+    color: '#2196F3',
+  },
+  playerOption: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 15,
+    borderRadius: 10,
+    marginVertical: 5,
+    backgroundColor: '#f5f5f5',
+  },
+  playerOptionText: {
+    flex: 1,
+    fontSize: 16,
+    marginLeft: 10,
+    color: '#333',
+  },
+  mainButton: {
+    marginVertical: 10,
+    borderRadius: 10,
+    elevation: 2,
+  },
+  cancelButton: {
+    marginTop: 10,
   },
 });

@@ -108,7 +108,7 @@ export default function PlayerSetupScreen({ route, navigation }) {
       </View>
 
       <Button
-        title="Mulai Scoring"
+        title="Mulai Pencatatan"
         onPress={handleSubmit}
         style={styles.button}
       />
